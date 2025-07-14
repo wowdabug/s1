@@ -19,7 +19,6 @@ function mergeFiles(fileParts) {
                 fetchPart(index + 1);
             }).catch(reject);
         }
-
         fetchPart(0);
     });
 }
@@ -27,24 +26,22 @@ function mergeFiles(fileParts) {
 function getParts(file, start, end) {
     let parts = [];
     for (let i = start; i <= end; i++) {
-        parts.push(`${file}.part${i}`);
+        parts.push(file + ".part" + i);
     }
     return parts;
 }
-
-// Replace with your actual filenames and part counts
 Promise.all([
-    mergeFiles(getParts("index.pck", 1, 4)),
-    mergeFiles(getParts("index.wasm", 1, 1))
+    mergeFiles(getParts("buckshot-roulette.pck", 1, 4)),
+    mergeFiles(getParts("buckshot-roulette.wasm", 1, 1))
 ]).then(([pckUrl, wasmUrl]) => {
     window.fetch = async function (url, ...args) {
-        if (url.endsWith("index.pck")) {
+        if (url.endsWith("buckshot-roulette.pck")) {
             return originalFetch(pckUrl, ...args);
-        } else if (url.endsWith("index.wasm")) {
+        } else if (url.endsWith("buckshot-roulette.wasm")) {
             return originalFetch(wasmUrl, ...args);
         } else {
             return originalFetch(url, ...args);
         }
     };
-    window.godotRunStart(); // Make sure this is called by your Godot loader
+    window.godotRunStart();
 });

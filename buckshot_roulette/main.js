@@ -33,7 +33,7 @@ function getParts(file, start, end) {
 }
 
 // Only merge .pck
-mergeFiles(getParts("buckshot-roulette.pck", 1, 17)).then((pckUrl) => {
+mergeFiles(getParts("buckshot-roulette.pck", 1, 4)).then((pckUrl) => {
     window.fetch = async function (url, ...args) {
         if (url.endsWith("buckshot-roulette.pck")) {
             return originalFetch(pckUrl, ...args);

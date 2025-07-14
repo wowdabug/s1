@@ -34,8 +34,8 @@ function getParts(file, start, end) {
 
 // Replace with your actual filenames and part counts
 Promise.all([
-    mergeFiles(getParts("index.pck", 1, 10)),
-    mergeFiles(getParts("index.wasm", 1, 2))
+    mergeFiles(getParts("index.pck", 1, 4)),
+    mergeFiles(getParts("index.wasm", 1, 1))
 ]).then(([pckUrl, wasmUrl]) => {
     window.fetch = async function (url, ...args) {
         if (url.endsWith("index.pck")) {

@@ -35,14 +35,16 @@ function getParts(file, start, end) {
   return parts;
 }
 
-// Only merge PCK
+// 👇 Merge only the .pck, do not touch .wasm
 mergeFiles(getParts("buckshot-roulette.pck", 1, 4)).then((pckUrl) => {
   window.fetch = async function (url, ...args) {
     if (url.endsWith("buckshot-roulette.pck")) {
       return originalFetch(pckUrl, ...args);
-    } else {
-      return originalFetch(url, ...args);
     }
+    // All other fetches (including .wasm) go untouched
+    return originalFetch(url, ...args);
   };
+
+  // Start Godot
   window.godotRunStart();
 });
